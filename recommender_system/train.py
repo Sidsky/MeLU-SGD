@@ -44,7 +44,7 @@ def training(melu, total_dataset, batch_size, num_epoch, model_save=True, model_
             except IndexError:
                 continue
             train_loss_batch, valid_loss_batch = melu.global_update(supp_xs, supp_ys, query_xs, query_ys,
-                                                                    config['inner'])  # Once
+                                                                    config['inner'], i)  # Once
             # a batch is formed, it is then passed for the global update
             training_loss_per_epoch.append(train_loss_batch)
             validation_loss_per_epoch.append(valid_loss_batch)
@@ -106,11 +106,3 @@ def generate_and_train(dataset_path):
         trained_state_dict = torch.load(model_filename)
         melu.load_state_dict(trained_state_dict)
 
-    # # selecting evidence candidates.
-    # evidence_candidate_list = selection(melu, dataset_path, config['num_candidate'])
-    # for movie, score in evidence_candidate_list:
-    #     print(movie, score)
-
-
-if __name__ == '__main__':
-    logger = log()

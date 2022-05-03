@@ -48,7 +48,7 @@ class MeLU(torch.nn.Module):
         self.model.load_state_dict(self.keep_weight)
         return query_set_y_pred
 
-    def global_update(self, support_set_xs, support_set_ys, query_set_xs, query_set_ys, num_local_update):
+    def global_update(self, support_set_xs, support_set_ys, query_set_xs, query_set_ys, num_local_update, batch_num):
         batch_sz = len(support_set_xs)
         losses_q = []
         training_loss_pre = []
@@ -62,7 +62,7 @@ class MeLU(torch.nn.Module):
         for i in range(batch_sz):  # All the tasks within the batch are trained one-by-one
             training_loss_pre.append(F.mse_loss(self.model(query_set_xs[i]), query_set_ys[i].view(-1, 1)).item())
 
-            query_set_y_pred = self.forward(support_set_xs[i], support_set_ys[i], query_set_xs[i], num_local_update, 1)
+            query_set_y_pred = self.forward(support_set_xs[i], support_set_ys[i], query_set_xs[i], num_local_update, i+(batch_num*batch_sz))
             loss_q = F.mse_loss(query_set_y_pred, query_set_ys[i].view(-1, 1))
             losses_q.append(loss_q)  # The training loss for each task is stored
 

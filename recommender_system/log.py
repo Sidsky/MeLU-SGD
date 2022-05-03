@@ -9,11 +9,11 @@ def get_plots():
     training_loss = pickle.load(open("recommender_system/training_loss.pkl", "rb"))
     validation_loss = pickle.load(open("recommender_system/validation_loss.pkl", "rb"))
 
-    epochs = [e+1 for e in range(25)]
+
 
     plt.switch_backend('AGG')
     plt.figure(figsize=(5, 4))
-    plt.plot(training_loss, epochs, 'm')
+    plt.plot(training_loss, 'm')
     plt.xlabel("Number of epochs")
     plt.ylabel("Training Loss")
     plt.title("Training loss vs. Number of epochs")
@@ -22,7 +22,7 @@ def get_plots():
 
     plt.switch_backend('AGG')
     plt.figure(figsize=(5, 4))
-    plt.plot(validation_loss, epochs, 'g')
+    plt.plot(validation_loss, 'g')
     plt.xlabel("Number of epochs")
     plt.ylabel("Validation Loss")
     plt.title("Validation loss vs. Number of epochs")
