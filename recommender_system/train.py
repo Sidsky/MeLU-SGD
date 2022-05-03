@@ -59,7 +59,7 @@ def training(melu, total_dataset, batch_size, num_epoch, model_save=True, model_
 
     # logger.get_training_loss_curve(config['num_epoch'])
     logger.store_on_disk()
-    logger.get_length()
+
     if model_save:
         torch.save(melu.state_dict(), model_filename)
 
