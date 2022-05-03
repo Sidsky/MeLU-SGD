@@ -4,4 +4,4 @@ numpy
 pandas
 py-cpuinfo
 matplotlib
-try
+

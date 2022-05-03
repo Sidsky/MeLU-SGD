@@ -39,6 +39,44 @@
                 <h3> Mean Validation Loss: </h3>
                     <p>{{ val_loss }}</p>
                 {% endif %}
+
+
+                <table class="table table-sm table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">Scenario</th>
+                      <th scope="col">MeLU</th>
+                      <th scope="col">Meta-HIN</th>
+                      <th scope="col">MeLU-SGD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Existing Items for Existing Users <br> (Non Cold-start)</th>
+                      <td>0.8084789654</td>
+                      <td>0.79972563468</td>
+                      <td class="bg-success">{{ warm_state }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Existing Items for New Users <br> (User Cold-start)</th>
+                      <td>0.82046968741</td>
+                      <td >0.81694578931</td>
+                      <td class="bg-success">{{ user_cold_state }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">New Items for Existing Users <br> (Item Cold-start)</th>
+                      <td >0.91967741235</td>
+                      <td class="bg-success" >0.86758941235</td>
+                      <td>{{ item_cold_state }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">New Items for New Users <br> (User-Item Cold-start)</th>
+                      <td>0.90914582367</td>
+                      <td class="bg-success">0.85569781364 </td>
+                      <td>{{ user_and_item_cold_state }}</td>
+                    </tr>
+                  </tbody>
+                </table>
                 <br><br>
                 <p>Python v3.6 PyTorch v1.4 with CUDA Enabled</p>
             </div>

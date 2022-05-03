@@ -9,9 +9,7 @@ from recommender_system.config import config
 from recommender_system.MeLU_SGD import MeLU
 from recommender_system.log import log
 
-
 def training(melu, total_dataset, batch_size, num_epoch, model_save=True, model_filename=None):
-
     print("Training now...")
 
     if torch.cuda.is_available():
@@ -36,7 +34,8 @@ def training(melu, total_dataset, batch_size, num_epoch, model_save=True, model_
         validation_loss_per_epoch = []
         print('---------------------------------')
 
-        for i in tqdm(range(num_batch), colour="green", leave=True, position=0, desc="Epoch [{}/{}]:".format(e + 1, num_epoch)):  # The training is done on a batch basis.
+        for i in tqdm(range(num_batch), colour="green", leave=True, position=0,
+                      desc="Epoch [{}/{}]:".format(e + 1, num_epoch)):  # The training is done on a batch basis.
             try:
                 supp_xs = list(a[batch_size * i:batch_size * (i + 1)])
                 supp_ys = list(b[batch_size * i:batch_size * (i + 1)])
@@ -44,7 +43,8 @@ def training(melu, total_dataset, batch_size, num_epoch, model_save=True, model_
                 query_ys = list(d[batch_size * i:batch_size * (i + 1)])
             except IndexError:
                 continue
-            train_loss_batch, valid_loss_batch = melu.global_update(supp_xs, supp_ys, query_xs, query_ys, config['inner'])  # Once
+            train_loss_batch, valid_loss_batch = melu.global_update(supp_xs, supp_ys, query_xs, query_ys,
+                                                                    config['inner'])  # Once
             # a batch is formed, it is then passed for the global update
             training_loss_per_epoch.append(train_loss_batch)
             validation_loss_per_epoch.append(valid_loss_batch)
@@ -65,7 +65,6 @@ def training(melu, total_dataset, batch_size, num_epoch, model_save=True, model_
 
 
 def generate_and_train(dataset_path):
-
     # training model.
     melu = MeLU(config)
     # print(melu)
@@ -113,5 +112,5 @@ def generate_and_train(dataset_path):
     #     print(movie, score)
 
 
-
-
+if __name__ == '__main__':
+    logger = log()

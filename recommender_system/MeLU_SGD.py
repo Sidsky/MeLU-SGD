@@ -13,7 +13,12 @@ class MeLU(torch.nn.Module):
         self.model = user_preference_estimator(config)
         self.local_lr = config['local_lr']
         self.store_parameters()
+        self.theta = []
+        for i in range(2653): # Task specific learning rates
+            self.theta.append(self.local_lr)
+        self.meta_lr = config['meta_lr']
         self.meta_optim = torch.optim.Adam(self.model.parameters(), lr=config['lr'])
+        self.task_specific_learner = torch.optim.Adam(self.model.parameters(), lr=config['meta_lr'])
         self.local_update_target_weight_name = ['fc1.weight', 'fc1.bias', 'fc2.weight', 'fc2.bias', 'linear_out.weight',
                                                 'linear_out.bias']
 
@@ -23,7 +28,7 @@ class MeLU(torch.nn.Module):
         self.weight_len = len(self.keep_weight)
         self.fast_weights = OrderedDict()
 
-    def forward(self, support_set_x, support_set_y, query_set_x, num_local_update):
+    def forward(self, support_set_x, support_set_y, query_set_x, num_local_update, task):
         for idx in range(num_local_update):
             if idx > 0:
                 self.model.load_state_dict(self.fast_weights)
@@ -35,7 +40,7 @@ class MeLU(torch.nn.Module):
             # local update
             for i in range(self.weight_len):
                 if self.weight_name[i] in self.local_update_target_weight_name:
-                    self.fast_weights[self.weight_name[i]] = weight_for_local_update[i] - self.local_lr * grad[i]
+                    self.fast_weights[self.weight_name[i]] = weight_for_local_update[i] - self.theta[task] * grad[i]
                 else:
                     self.fast_weights[self.weight_name[i]] = weight_for_local_update[i]
         self.model.load_state_dict(self.fast_weights)
@@ -57,7 +62,7 @@ class MeLU(torch.nn.Module):
         for i in range(batch_sz):  # All the tasks within the batch are trained one-by-one
             training_loss_pre.append(F.mse_loss(self.model(query_set_xs[i]), query_set_ys[i].view(-1, 1)).item())
 
-            query_set_y_pred = self.forward(support_set_xs[i], support_set_ys[i], query_set_xs[i], num_local_update)
+            query_set_y_pred = self.forward(support_set_xs[i], support_set_ys[i], query_set_xs[i], num_local_update, 1)
             loss_q = F.mse_loss(query_set_y_pred, query_set_ys[i].view(-1, 1))
             losses_q.append(loss_q)  # The training loss for each task is stored
 

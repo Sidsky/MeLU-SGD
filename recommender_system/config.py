@@ -18,6 +18,7 @@ config = {
     'inner': 1,
     'lr': 5e-5,
     'local_lr': 5e-6,
+    'meta_lr': 1,
     'batch_size': 32,
     'num_epoch': 25,
     # candidate selection

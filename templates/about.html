@@ -1,11 +1,71 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>MeLU-SGD</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{%  static 'assets/favicon.ico' %}" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{%  static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/">Home</a>
+            </div>
+        </nav>
+        <!-- Page content-->
+        <div class="container">
+            <div class="text-center mt-5">
+                <h1>Meta-learned User Preference Estimator </h1>
+                <h1>using Stochastic Gradient Descent</h1>
 
-</head>
-<body>
-    <p>ABOUT ME</p>
-</body>
+                <br>
+
+                <br><br>
+                <p>The rise in popularity of online content delivery services, e-commerce, and social media has highlighted the need of surfacing appropriate content to users.
+                    Although recommendation systems have proven to be useful, they encounter several obstacles. It can be difficult to identify user preferences based on only a small
+                    amount of data. These systems are unable to manage new users and new items due to sparse user-item interactions.
+                    There has been an increasing amount of study done in this problem, however the results have only been partially satisfactory.
+                </p>
+                <br>
+                <p>Old recommendation systems used auxiliary data to cover the lack of user-item interaction, however,
+                    it made the network even more complex and being unable to make accurate predictions. Previous recommendation system such as those in Netflix provide
+                    items to users in their cold-state to identify preference, but users who had less interactions received poor recommendation.
+                </p>
+                <br>
+                <p>Humans have an exceptional capability in learning new things. We generally build upon our past experiences and transfer knowledge in order to learn new things.
+                    There are numerous examples where a person learns a thing just once and starts to build expertise without any additional knowledge. Optimization based
+                    meta-learning is one such technique in machine learning which aims to learn new things rapidly.
+                </p>
+                <br>
+
+                <p>This project proposes a novel way to alleviate the cold-start recommendation problem using meta-learning while using model-agnostic meta-learning algorithm with
+                    stochastic gradient descent. The novelty of this algorithm lies in the fact that in this algorithm not only the parameters are updated during gradient descent,
+                    but also the learning rate is updated during the training process. The algorithm does not use the learning rate as a scalar value, but instead it a vector
+                    representing different learning rates for each user. The motivation behind such an idea is that every user watches a different number of movies, some users
+                    have watched significantly higher number of movies than others and so the learning rate should be adjusted in terms of the item consumption history of the user.
+                    The same concept is applied for users who have watched fewer number of movies.
+                </p>
+                <br>
+
+                <p>The model is trained on the famous MovieLens 1M dataset, which contains 1 million interactions of around 6000 users rating 4000 movies. The model is
+                    trained on existing users and existing items and then tested on different cold-start scenarios such new item and existing users, existing users and new items,
+                    and new items and existing users. During testing the loss is compared with 2 baseline models namely Meta-learned User Preference Estimator, and Meta Heterogenous
+                    Information Network. MeLU-SGD provides better result for the most difficult cold-start scenario i.e., new items with new users.
+                </p>
+                <br><br>
+                <p>Python v3.6 PyTorch v1.4 with CUDA Enabled</p>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{%  static 'js/scripts.js' %}"></script>
+    </body>
 </html>

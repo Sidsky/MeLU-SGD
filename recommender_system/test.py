@@ -9,7 +9,6 @@ from torch.nn import functional as F
 
 
 def testing(MeLU_SGD, dataset, dataset_len):
-
     print("\nTesting now...")
     MeLU_SGD.cuda()
     MeLU_SGD.eval()
@@ -47,10 +46,8 @@ def testing(MeLU_SGD, dataset, dataset_len):
 
         query_set_y_pred = MeLU_SGD.model(query_x)
         loss_all.append(F.l1_loss(query_y.view(-1, 1), query_set_y_pred).item())
-        # normScore.append(metrics.ndcg(outputs=query_set_y_pred, targets=query_y.view(-1, 1), topk=[5])[0].item())
-    # print(normScore[0].item())
-    print('{}'.format(np.mean(loss_all)))
-    # print('{}'.format(np.mean(normScore)))
+
+    return np.mean(loss_all)
 
 
 def test(dataset_path, state):
@@ -66,7 +63,7 @@ def test(dataset_path, state):
     query_x = []
     query_y = []
 
-    print("Loading testing data...")
+    print("Loading testing data for {}...".format(state))
 
     for i in tqdm(range(testing_set_size), colour="green"):
         s_x = pickle.load(open("{}/{}/supp_x_{}.pkl".format(dataset_path, state, i), "rb"))
@@ -82,18 +79,4 @@ def test(dataset_path, state):
     test_dataset = list(zip(supp_x, supp_y, query_x, query_y))
     del (supp_x, supp_y, query_x, query_y)
 
-    testing(melu_sgd, test_dataset, len(test_dataset))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return testing(melu_sgd, test_dataset, len(test_dataset))
