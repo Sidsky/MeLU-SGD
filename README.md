@@ -3,7 +3,7 @@ Meta-learned User Preference Estimator Using Stochastic Gradient Descent
 
 In order to run the software, please run the following commands in order-
 
-1. Create a project in PyCharm using conda enviroment with python 3.6. 
+1. Create a project in PyCharm using conda enviroment
 2. Select python 3.6 while creating the conda enviroment.
 4. git clone https://github.com/Sidsky/MeLU-SGD.git
 5. cd .\MeLU-SGD\
